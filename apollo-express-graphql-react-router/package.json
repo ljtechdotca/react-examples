@@ -1,5 +1,5 @@
 {
-  "name": "express-graphql-react-router",
+  "name": "apollo-express-graphql-react-router",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
