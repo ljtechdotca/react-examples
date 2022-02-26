@@ -1,0 +1,8 @@
+{
+  "name": "react-examples",
+  "version": "1.0.0",
+  "description": "A collection of React examples.",
+  "main": "index.js",
+  "author": "ljtech",
+  "license": "MIT"
+}
