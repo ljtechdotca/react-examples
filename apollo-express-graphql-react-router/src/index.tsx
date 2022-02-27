@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "./styles/index.css";
+import "./styles/index.scss";
 
 const client = new ApolloClient({
   uri: "http://localhost:3001/graphql",

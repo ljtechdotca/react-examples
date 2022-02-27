@@ -1,46 +1,43 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { Post } from "@types";
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FormContext } from "src/App";
+import { useForm } from "src/hooks/form-context";
+import styles from "./Posts.module.scss";
 
 interface PostsData {
   getMany: Post[];
 }
 
+const DELETE = gql`
+  mutation DeletePost($id: String!) {
+    delete(id: $id) {
+      id
+      author
+      title
+    }
+  }
+`;
+
+const GET_MANY = gql`
+  query GetMany {
+    getMany {
+      id
+      author
+      title
+    }
+  }
+`;
+
 const All = () => {
   const nav = useNavigate();
-  const { form, setForm } = useContext(FormContext);
-  const handleUpdate = (post: Post) => {
-    setForm(post);
-    nav("/", { replace: true });
-  };
-
-  // fetch all
-  const GET_MANY = gql`
-    query GetMany {
-      getMany {
-        id
-        author
-        title
-      }
-    }
-  `;
+  const { setForm } = useForm();
+  
   const { loading, error, data } = useQuery<PostsData, Post>(GET_MANY);
 
-  // delete a post
-  const DELETE = gql`
-    mutation DeletePost($id: String!) {
-      delete(id: $id) {
-        id
-        author
-        title
-      }
-    }
-  `;
   const [deletePost, deleteState] = useMutation<PostsData, Partial<Post>>(
     DELETE
   );
+
   const handleDelete = (id: string) => {
     deletePost({
       refetchQueries: () => [
@@ -55,8 +52,29 @@ const All = () => {
     });
   };
 
+  const handleUpdate = (post: Post) => {
+    setForm({
+      id: {
+        value: post.id,
+        placeholder: "ID",
+        readOnly: true,
+      },
+      title: {
+        value: post.title,
+        placeholder: "Title",
+        readOnly: true,
+      },
+      author: {
+        value: post.author,
+        placeholder: "Author",
+        readOnly: false,
+      },
+    });
+    nav("/");
+  };
+
   return (
-    <>
+    <div>
       {loading ? (
         <div>Loading</div>
       ) : error ? (
@@ -68,24 +86,29 @@ const All = () => {
         </div>
       ) : data ? (
         <div>
-          <ul style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div className={styles.list}>
             {data.getMany.map((post) => (
-              <li key={post.id} style={{ padding: "1rem" }}>
-                <Link to={`/posts/${post.id}`}>
-                  <div>{post.title}</div>
-                  <div>{post.author}</div>
-                  <div></div>
-                </Link>
-                <button onClick={() => handleDelete(post.id)}>Delete</button>
-                <button onClick={() => handleUpdate(post)}>Update</button>
-              </li>
+              <div className={styles.item} key={post.id}>
+                <div>
+                  {post.title}
+                  <br />
+                  {post.author}
+                </div>
+                <div className={styles.flex}>
+                  <Link to={`/posts/${post.id}`}>
+                    <button>View</button>
+                  </Link>
+                  <button onClick={() => handleUpdate(post)}>Update</button>
+                  <button onClick={() => handleDelete(post.id)}>Delete</button>
+                </div>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       ) : (
         <div>No Posts Were Found!</div>
       )}
-    </>
+    </div>
   );
 };
 

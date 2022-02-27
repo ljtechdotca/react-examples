@@ -3,3 +3,7 @@ export interface Post {
   title: string;
   author: string;
 }
+
+export interface PostData {
+  post: Post;
+}

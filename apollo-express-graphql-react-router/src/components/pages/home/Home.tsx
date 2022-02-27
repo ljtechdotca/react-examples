@@ -1,56 +1,73 @@
 import { gql, useMutation } from "@apollo/client";
 import { Post } from "@types";
-import React, { useContext } from "react";
-import { FormContext } from "src/App";
+import React from "react";
+import Form from "src/components/ui/form/Form";
+import { useForm } from "src/hooks/form-context";
+import styles from "./Home.module.scss";
 
-interface PostData {
-  post: Post;
-}
+const GET_MANY = gql`
+  query GetMany {
+    getMany {
+      title
+      author
+      id
+    }
+  }
+`;
+
+const POST = gql`
+  mutation CreatePost($author: String!, $title: String!) {
+    post(author: $author, title: $title) {
+      id
+      author
+      title
+    }
+  }
+`;
+
+const UPDATE = gql`
+  mutation UpdatePost($id: String!, $author: String!, $title: String!) {
+    update(id: $id, author: $author, title: $title) {
+      id
+      author
+      title
+    }
+  }
+`;
 
 const Home = () => {
-  const { form, setForm } = useContext(FormContext);
+  const { form } = useForm();
 
-  const GET_MANY = gql`
-    query GetMany {
-      getMany {
-        title
-        author
-        id
-      }
-    }
-  `;
+  // task : use cache.modify
+  const [
+    createPost,
+    { loading: createLoading, error: createError, data: createData },
+  ] = useMutation<{ post: Post }, Partial<Post>>(POST, {
+    variables: { title: form.title.value, author: form.author.value },
+  });
 
-  // create a post
-  const POST = gql`
-    mutation CreatePost($author: String!, $title: String!) {
-      post(author: $author, title: $title) {
-        id
-        author
-        title
-      }
-    }
-  `;
-  const [createPost, { loading, error, data }] = useMutation<PostData, any>(
-    POST,
-    {
-      variables: { title: form.title, author: form.author },
-    }
-  );
-  const handlePost = (event: React.FormEvent) => {
+  const [
+    updatePost,
+    { loading: updateLoading, error: updateError, data: updateData },
+  ] = useMutation<{ post: Post }, Partial<Post>>(UPDATE);
+
+  const handleForm = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(form);
-    if (form.id.length > 0) {
-      console.log("ID detected, updating post");
+    if (form.id.value.length > 0) {
       updatePost({
         refetchQueries: () => [
           {
             query: GET_MANY,
           },
         ],
-        onError(err) {
-          console.log(err);
+        onError(error) {
+          console.log(error);
         },
-        variables: { id: form.id, author: form.author, title: form.title },
+        variables: {
+          id: form.id.value,
+          author: form.author.value,
+          title: form.title.value,
+        },
       });
     } else {
       createPost({
@@ -62,57 +79,40 @@ const Home = () => {
         onError(error) {
           console.log(error);
         },
+        variables: {
+          author: form.author.value,
+          title: form.title.value,
+        },
       });
     }
   };
 
-  // update a post
-  const UPDATE = gql`
-    mutation UpdatePost($id: String!, $author: String!, $title: String!) {
-      update(id: $id, author: $author, title: $title) {
-        title
-        author
-        id
-      }
-    }
-  `;
-  const [updatePost, updateState] = useMutation<PostData, Partial<Post>>(
-    UPDATE
-  );
-
   return (
-    <section>
+    <section className={styles.root}>
       <h2>Home Page</h2>
-      {loading ? (
-        <div></div>
-      ) : error ? (
-        <div>{JSON.stringify(error, null, 2)}</div>
-      ) : data ? (
-        <div>{JSON.stringify(data, null, 2)}</div>
+      {createLoading || updateLoading ? (
+        <div>Loading...</div>
+      ) : createError || updateError ? (
+        <div>
+          <pre>
+            <code>{JSON.stringify(createError, null, 2)}</code>
+          </pre>
+          <pre>
+            <code>{JSON.stringify(updateError, null, 2)}</code>
+          </pre>
+        </div>
+      ) : createData || updateData ? (
+        <div>
+          <pre>
+            <code>{JSON.stringify(createData, null, 2)}</code>
+          </pre>
+          <pre>
+            <code>{JSON.stringify(updateData, null, 2)}</code>
+          </pre>
+          <Form onSubmit={handleForm} />
+        </div>
       ) : (
-        <form onSubmit={handlePost}>
-          <input
-            onChange={(event) =>
-              setForm((state) => ({ ...state, title: event.target.value }))
-            }
-            value={form.title}
-            type="text"
-            id="title"
-            name="title"
-            placeholder="Title"
-          />
-          <input
-            onChange={(event) =>
-              setForm((state) => ({ ...state, author: event.target.value }))
-            }
-            value={form.author}
-            type="text"
-            id="author"
-            name="author"
-            placeholder="Author"
-          />
-          <button type="submit">submit</button>
-        </form>
+        <Form onSubmit={handleForm} />
       )}
     </section>
   );

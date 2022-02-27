@@ -2,31 +2,30 @@ import { gql, useQuery } from "@apollo/client";
 import { Post } from "@types";
 import { useLocation } from "react-router";
 
-interface PostData {
-  getUnique: Post;
-}
+const GET_POST = gql`
+  query GetPost($id: String!) {
+    getUnique(id: $id) {
+      title
+      author
+      id
+    }
+  }
+`;
 
 const Unique = () => {
   const nav = useLocation();
 
   const target = nav.pathname.split("/")[2];
 
-  const GET_POST = gql`
-    query GetPost($id: String!) {
-      getUnique(id: $id) {
-        title
-        author
-        id
-      }
+  const { loading, error, data } = useQuery<{ getUnique: Post }, Partial<Post>>(
+    GET_POST,
+    {
+      variables: { id: target },
     }
-  `;
-
-  const { loading, error, data } = useQuery<PostData, any>(GET_POST, {
-    variables: { id: target },
-  });
+  );
 
   return (
-    <section>
+    <div>
       {loading ? (
         <div>Loading</div>
       ) : error ? (
@@ -42,7 +41,7 @@ const Unique = () => {
       ) : (
         <div>Nothing was found 😢</div>
       )}
-    </section>
+    </div>
   );
 };
 
