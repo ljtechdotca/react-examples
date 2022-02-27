@@ -1,0 +1,29 @@
+.root {
+  border-radius: 9999px;
+  border: 2px solid var(--foreground);
+  cursor: pointer;
+  display: flex;
+  height: 1.25rem;
+  transition: 0.2s ease background-color;
+  width: 2rem;
+}
+
+.container {
+  appearance: none;
+  background-color: var(--foreground);
+  border-radius: 9999px;
+  cursor: pointer;
+  top: 1px;
+  left: 1px;
+  position: relative;
+  height: calc(1rem - 2px);
+  transition: 0.2s ease background-color, 0.2s ease transform;
+  width: calc(1rem - 2px);
+  &:checked {
+    background: var(--foreground);
+  }
+  &__active {
+    @extend .container;
+    transform: translateX(0.75rem);
+  }
+}
