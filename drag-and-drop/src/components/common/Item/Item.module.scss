@@ -1,0 +1,36 @@
+.root {
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  display: flex;
+  background-color: #fff;
+  overflow: hidden;
+  margin: 0 0 0.5rem;
+}
+
+.container {
+  padding: 0.5rem;
+  width: 100%;
+  display: grid;
+  place-items: start start;
+  grid-gap: 0.5rem;
+}
+
+.flex {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tag {
+  background-color: black;
+  padding: 0.075rem 0.125rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  color: white;
+}
+
+.name {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
