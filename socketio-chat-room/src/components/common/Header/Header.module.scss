@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+  background-color: #fff;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 1.5rem;
+  align-items: center;
+  form {
+    display: flex;
+    gap: 0.5rem;
+  }
+}

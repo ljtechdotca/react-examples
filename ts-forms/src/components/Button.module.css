@@ -1,0 +1,10 @@
+.root {
+  border-radius: .125rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  padding: .5rem;
+}
+
+.root:hover {
+  opacity: .5;
+}

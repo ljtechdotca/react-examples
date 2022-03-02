@@ -1,0 +1,13 @@
+.root {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 0.125rem;
+  padding: 0.5rem;
+}
+
+.avatar {
+  overflow: hidden;
+  border-radius: 9999px;
+}

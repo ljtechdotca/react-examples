@@ -1,0 +1,17 @@
+.root {
+  display: grid;
+  grid-gap: 0.5rem;
+  form {
+    display: flex;
+    gap: 0.5rem;
+  }
+}
+
+.container {
+  border-radius: 0.125rem;
+  border: 1px solid #ccc;
+  overflow-y: scroll;
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+}

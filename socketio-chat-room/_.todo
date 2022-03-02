@@ -1,0 +1,5 @@
+☐ limit chat messages to 30
+☐ clean up ghost clients or persist the user data
+☐ create timestamps on messages
+☐ emit messages when users register
+☐ hide ui when not registered
