@@ -4,4 +4,4 @@ This React application uses react-beautiful-dnd to achieve a draggable list of i
 
 ## 📦 Packages:
 
-> [react-beautiful-dnd](https://www.npmjs.com/package/react-beautiful-dnd)
+> - [react-beautiful-dnd](https://www.npmjs.com/package/react-beautiful-dnd)

@@ -1,6 +1,5 @@
 # React Examples
 
-👋 Hello world.
+This is a collection of open source React applications I've created.
 
-Lorem ipsum dolor set amet.
-
+Feel free to learn from them or PR any issues you have with my code.

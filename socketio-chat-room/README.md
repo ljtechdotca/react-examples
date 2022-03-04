@@ -4,7 +4,7 @@ This React application uses an Express server backend to handle Web Socket event
 
 ## 📦 Packages:
 
-> [express](https://www.npmjs.com/package/express)
-> [nodemon](https://www.npmjs.com/package/nodemon)
-> [socket.io](https://www.npmjs.com/package/socket.io)
-> [socket.io-client](https://www.npmjs.com/package/socket.io-client)
+> - [express](https://www.npmjs.com/package/express)
+> - [nodemon](https://www.npmjs.com/package/nodemon)
+> - [socket.io](https://www.npmjs.com/package/socket.io)
+> - [socket.io-client](https://www.npmjs.com/package/socket.io-client)
