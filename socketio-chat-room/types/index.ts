@@ -5,6 +5,11 @@ export interface UserStateContext {
   setUser: React.Dispatch<React.SetStateAction<UserState | null>>;
 }
 
+export interface UsersStateContext {
+  users: UserState[];
+  setUsers: React.Dispatch<React.SetStateAction<UserState[]>>;
+}
+
 export interface SocketStateContext {
   socket: Socket | null;
   setSocket: React.Dispatch<React.SetStateAction<Socket | null>>;

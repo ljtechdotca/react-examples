@@ -18,18 +18,12 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("register", async (action) => {
+    console.log(socket.id);
     const key = socket.id.toLowerCase().replace(/[^a-z]/g, "");
-    socket.data.key = key;
     const newUser: UserState = { ...action, color: hex(), id: key };
+    socket.data.user = newUser;
     Object.assign(users, { [key]: { ...newUser } });
     socket.emit("register", newUser);
-    io.emit("users", users);
-  });
-
-  socket.on("signout", async () => {
-    delete users[socket.data.key];
-    console.log(users);
-    socket.emit("signout");
     io.emit("users", users);
   });
 
@@ -37,6 +31,18 @@ io.on("connection", (socket) => {
     const newMessage: MessageState = { ...action, id: uid() };
     messages.push(newMessage);
     io.emit("message", messages);
+  });
+
+  socket.on("disconnect", async () => {
+    const newMessage: MessageState = {
+      user: socket.data.user,
+      content: "has disconnected...",
+      id: uid(),
+    };
+    messages.push(newMessage);
+    delete users[socket.data.user.id];
+    io.emit("message", messages);
+    io.emit("users", users);
   });
 });
 

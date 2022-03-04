@@ -16,9 +16,6 @@ export const Home = ({}: HomeProps) => {
       socket.on("register", (data) => {
         setUser(data);
       });
-      socket.on("signout", () => {
-        setUser(null);
-      });
     }
   }, [setUser, socket]);
 

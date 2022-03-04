@@ -2,9 +2,8 @@ import { UserState } from "@types";
 import React, { useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { Button, Input } from "src/components/ui";
-import { useUser } from "src/hooks/use-user";
 import { INIT_CON_OPTS } from "../../../constants";
-import { useSocket } from "../../../hooks";
+import { useSocket, useUser, useUsers } from "../../../hooks";
 import styles from "./Header.module.scss";
 
 declare global {
@@ -21,11 +20,14 @@ export const Header = ({}: HeaderProps) => {
     name: "",
   });
   const { socket, setSocket } = useSocket();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
+  const { setUsers } = useUsers();
 
   const signOut = () => {
     if (socket) {
-      socket.emit("signout");
+      socket.disconnect();
+      setUser(null);
+      setUsers([]);
     }
   };
 

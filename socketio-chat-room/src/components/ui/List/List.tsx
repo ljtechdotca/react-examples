@@ -1,14 +1,13 @@
-import { UserState } from "@types";
-import { useEffect, useState } from "react";
-import { useSocket } from "src/hooks";
+import { useEffect } from "react";
+import { useSocket, useUsers } from "src/hooks";
 import { Item } from "..";
 import styles from "./List.module.scss";
 
 interface ListProps {}
 
 export const List = ({}: ListProps) => {
-  const [users, setUsers] = useState<UserState[]>([]);
   const { socket } = useSocket();
+  const { users, setUsers } = useUsers();
 
   useEffect(() => {
     if (socket) {
@@ -16,7 +15,7 @@ export const List = ({}: ListProps) => {
         setUsers(data);
       });
     }
-  }, [socket]);
+  }, [setUsers, socket]);
 
   return (
     <ul className={styles.root}>
