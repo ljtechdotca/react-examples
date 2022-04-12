@@ -1,0 +1,13 @@
+.root {
+  min-height: 100vh;
+  grid-template-rows: 2fr 1fr;
+  display: grid;
+}
+
+.base {
+  display: grid;
+  max-width:200px;
+  width: 100%;
+  margin: auto;
+  gap: 0.5rem;
+}

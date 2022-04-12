@@ -1,5 +1,5 @@
 {
-  "name": "ts-forms",
+  "name": "express-server",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,15 +10,15 @@
     "@types/node": "^16.7.13",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
-    "formik": "^2.2.9",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "express": "^4.17.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-scripts": "5.0.0",
     "typescript": "^4.4.2",
-    "web-vitals": "^2.1.0",
-    "yup": "^0.32.11"
+    "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "dev": "nodemon ./index.ts",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -43,7 +43,8 @@
     ]
   },
   "devDependencies": {
-    "@types/nodemailer": "^6.4.4",
-    "sass": "^1.50.0"
-  }
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0"
+  },
+  "proxy": "http://localhost:3001"
 }
